@@ -3,9 +3,9 @@ samples about "deployment" concept on google container engine
 
 ### Creating
 ```sh
-$ kubectl create -f nginx-deployment-1-initial.yaml --record
+kubectl create -f nginx-deployment-1-initial.yaml --record
 
-$ kubectl get deployments
+kubectl get deployments
 
 kubectl get rs
 
@@ -13,11 +13,13 @@ kubectl get pods --show-labels
 
 ```
 
-### Status
+### External traffic
 ```sh
-kubectl get deployment/nginx-deployment
+kubectl expose deployment nginx-deployment --type="LoadBalancer"
 
-kubectl get deployment/nginx-deployment -o yaml | grep [Gg]eneration
+kubectl get services nginx-deployment
+
+
 ````
 
 ### Updating
@@ -50,4 +52,14 @@ kubectl rollout undo deployment/nginx-deployment --to-revision=2
 kubectl get deployments
 
 kubectl describe deployments
+````
+
+### Scaling
+```sh
+kubectl scale deployment nginx-deployment --replicas=4
+````
+
+### Tear down
+```sh
+gcloud container clusters delete nginx-cluster
 ````
